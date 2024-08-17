@@ -1,28 +1,35 @@
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd',
-            'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-            't', 'u', 'v', 'w', 'x', 'y', 'z']
+from art import logo
+print(logo)
 
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
 
-def ceasar(encode_or_decode, original_text, shift_amount):
-    if encode_or_decode == "encode":
-        cypher_text = ""
-        for letter in original_text:
+def caesar(original_text, shift_amount, encode_or_decode):
+    output_text = ""
+
+    if encode_or_decode == "decode":
+        shift_amount *= -1
+
+    for letter in original_text:
+        if letter in alphabet:
             shifted_position = alphabet.index(letter) + shift_amount
-            shifted_position %= len(alphabet)  # third type of todo 4
-            cypher_text += alphabet[shifted_position]
-        print(f"Here is the encoded result:\n{cypher_text}")
+            shifted_position %= len(alphabet)
+            output_text += alphabet[shifted_position]
+        else:
+            output_text += letter
+    print(f"Here is the {encode_or_decode}d result: {output_text}")
 
+answer = True
+while answer:
+    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
+    text = input("Type your message:\n").lower()
+    shift = int(input("Type the shift number:\n"))
+    caesar(original_text=text, shift_amount=shift, encode_or_decode=direction)
+
+    cont = input("Type 'yes' if you want to go again. Otherwise, type 'no'.")
+
+    if cont == "yes":
+        answer = True
     else:
-        decrypted_text = ""
-        for letter in original_text:
-            shifted_position = alphabet.index(letter) - shift_amount
-            decrypted_text += alphabet[shifted_position]
-        print(decrypted_text)
-
-
-ceasar(direction, text, shift)
+        answer = False
